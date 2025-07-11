@@ -1,0 +1,37 @@
+{
+  "employees": [
+    {
+      "name": "Rushee",
+      "email": "rushikamagar9@gmail.com",
+      "department": "engineering",
+      "designation": "senior",
+      "userType": "hr",
+      "salary": "60000",
+      "password": "1234",
+      "date": "2025-07-10",
+      "id": "6394"
+    },
+    {
+      "name": "Neems",
+      "email": "neems@gmail.com",
+      "department": "marketing",
+      "designation": "midlevel",
+      "userType": "manager",
+      "salary": "50000",
+      "password": "ert",
+      "date": "2025-07-10",
+      "id": "5e5d"
+    },
+    {
+      "name": "Alzee",
+      "email": "alzi@gmail.com",
+      "department": "sales",
+      "designation": "junior",
+      "userType": "employee",
+      "salary": "40000",
+      "password": "1234",
+      "date": "2025-07-11",
+      "id": "8ef4"
+    }
+  ]
+}
