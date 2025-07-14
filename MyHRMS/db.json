@@ -32,6 +32,17 @@
       "password": "1234",
       "date": "2025-07-11",
       "id": "8ef4"
+    },
+    {
+      "id": "2381",
+      "name": "Dilu",
+      "email": "dilu@gmail.com",
+      "department": "sales",
+      "designation": "junior",
+      "userType": "employee",
+      "salary": "20000",
+      "password": "1234",
+      "date": "2025-07-14"
     }
   ]
 }
