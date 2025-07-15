@@ -43,6 +43,17 @@
       "salary": "20000",
       "password": "1234",
       "date": "2025-07-14"
+    },
+    {
+      "id": "e15b",
+      "name": "Employee",
+      "email": "emp@gmail.com",
+      "department": "sales",
+      "designation": "junior",
+      "userType": "employee",
+      "salary": "10000",
+      "password": "1234",
+      "date": "2025-07-15"
     }
   ]
 }
