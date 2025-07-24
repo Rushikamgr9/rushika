@@ -2,7 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import mongoose from "mongoose"; //Importing mongoose
 import dotenv from "dotenv";
-import { createEmployee, getAllEmployees, getEmployeeById } from "./controllers/employee.controller.js";
+import { createEmployee, deleteEmployee, getAllEmployees, getEmployeeById, updateEmployee } from "./controllers/employee.controller.js";
 dotenv.config(); //configuring .env file
 
 const app = express();
@@ -21,6 +21,8 @@ app.get('/', (req, res) => {
 app.post("/employee/create", createEmployee);
 app.get("/employee/getAllEmployees", getAllEmployees);
 app.get("/employee/getAllEmployees/:id", getEmployeeById);
+app.put("/employee/update/:id", updateEmployee);
+app.delete("/employee/delete/:id", deleteEmployee);
 
 //Database Connection
 mongoose.connect(process.env.MONGOOSE_URL).then(() => {
