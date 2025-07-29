@@ -1,6 +1,5 @@
-
 import employeeModel from "../models/employee.model.js";
-
+import bcrypt from "bcrypt";
 
 //Adding employees
 export async function createEmployee(req, res) {
@@ -19,13 +18,21 @@ export async function createEmployee(req, res) {
             return res.status(400).json({ message: "This email already exists." });
         }
 
+        const hashedPassword = await bcrypt.hash(password, 10);
+
         // 4. Store the data in database
         const employeeData = await employeeModel.create({
-            name, email, designation, department, userType, salary, password,
+            name, 
+            email, 
+            designation, 
+            department, 
+            userType, 
+            salary, 
+            password: hashedPassword,
         });
 
         // 5. Send successful message
-        return res.status(200).json({ message: "User created successfully." });
+        return res.status(200).json({ message: "User created successfully." , data: employeeData});
 
     } catch (error) {
         // If any error occurs send response of error
@@ -79,12 +86,18 @@ export async function getEmployeeById(req, res) {
 //Function to update Employee data
 export async function updateEmployee(req, res) {
     try {
+        let hashedPassword;
         //1. kun employee ko data update garne ho
         const id = req.params.id;
 
         //2. k k data update garne ho
         const { name, email, designation, department, userType, salary, password } = req.body;
 
+        if (password) {
+            hashedPassword = await bcrypt.hash(password, 10);
+        }
+            
+                
         //3. Data update garum
         const updatedEmployee = await employeeModel.findByIdAndUpdate(
             id,
@@ -95,7 +108,7 @@ export async function updateEmployee(req, res) {
                 department,
                 userType,
                 salary,
-                password,
+                password: hashedPassword,
             },
             { new: true }
         );

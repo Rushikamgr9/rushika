@@ -2,27 +2,33 @@ import express from "express";
 import morgan from "morgan";
 import mongoose from "mongoose"; //Importing mongoose
 import dotenv from "dotenv";
+import cors from "cors";
 import { createEmployee, deleteEmployee, getAllEmployees, getEmployeeById, updateEmployee } from "./controllers/employee.controller.js";
+import { loginEmployee } from "./controllers/auth.controller.js";
+import { authorizeToken } from "./middleware/auth.middleware.js";
 dotenv.config(); //configuring .env file
 
 const app = express();
 const PORT = process.env.PORT;
 
 
-//For logging informations
+//Middlewares
 app.use(morgan("dev"));
 app.use(express.json())
+app.use(cors()); //Cors middleware
 
 //Creating Route
 app.get('/', (req, res) => {
     res.status(200).json({ message: "Welcome to Nodejs!" });
 });
 
-app.post("/employee/create", createEmployee);
-app.get("/employee/getAllEmployees", getAllEmployees);
-app.get("/employee/getAllEmployees/:id", getEmployeeById);
-app.put("/employee/update/:id", updateEmployee);
-app.delete("/employee/delete/:id", deleteEmployee);
+//Employee to Routes
+app.post("/employee",authorizeToken, createEmployee);
+app.get("/employee", authorizeToken, getAllEmployees);
+app.get("/employee/:id", getEmployeeById);
+app.put("/employee/:id", updateEmployee);
+app.delete("/employee/:id",authorizeToken, deleteEmployee);
+app.post("/auth", loginEmployee);
 
 //Database Connection
 mongoose.connect(process.env.MONGOOSE_URL).then(() => {
