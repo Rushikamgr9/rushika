@@ -23,12 +23,17 @@ app.get('/', (req, res) => {
 });
 
 //Employee to Routes
-app.post("/employee",authorizeToken, createEmployee);
+app.post("/employee", authorizeToken, createEmployee);
 app.get("/employee", authorizeToken, getAllEmployees);
 app.get("/employee/:id", getEmployeeById);
 app.put("/employee/:id", updateEmployee);
-app.delete("/employee/:id",authorizeToken, deleteEmployee);
+app.delete("/employee/:id", authorizeToken, deleteEmployee);
 app.post("/auth", loginEmployee);
+
+//Route to verify token
+app.get("/", authorizeToken, () => {
+    res.status(200).json({Message: "Token Verified."});
+});
 
 //Database Connection
 mongoose.connect(process.env.MONGOOSE_URL).then(() => {
