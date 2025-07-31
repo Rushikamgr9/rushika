@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useEffect } from "react";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -22,42 +23,6 @@ export default function LoginForm() {
     }
 
     try {
-      // if (isDemoAdmin) {
-      //   const reqresResp = await fetch("https://reqres.in/api/login", {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       "x-api-key": "reqres-free-v1",
-      //     },
-      //     body: JSON.stringify({ email, password }),
-      //   });
-
-      //   if (!reqresResp.ok) {
-      //     throw new Error("Reqres login failed");
-      //   }
-
-      //   const data = await reqresResp.json();
-      //   localStorage.setItem("token", data.token);
-
-      //   const demoUser = { email, role: "admin" };
-      //   localStorage.setItem("user", JSON.stringify(demoUser));
-      //   alert("Demo Admin login success");
-      //   return navigate("/home");
-      // }
-
-      // Otherwise → check your local JSON Server for user
-      // const localResp = await fetch(
-      //   `http://localhost:5000/employees?email=${email}&password=${password}`
-      // );
-      // const users = await localResp.json();
-
-      // if (users.length === 0) {
-      //   alert("User not found or password incorrect");
-      //   return;
-      // }
-
-      // const user = users[0];
-
       const response = await axios.post("http://localhost:8000/auth", {
         email, 
         password
@@ -77,6 +42,30 @@ export default function LoginForm() {
       alert(error.message || "Something went wrong");
     }
   };
+
+  const verifyToken = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.get("http://localhost:8000/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        navigate("/home");
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.status(400)) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+      }
+    }
+  };
+  useEffect(() => {
+    verifyToken();
+  }, []);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">

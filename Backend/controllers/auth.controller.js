@@ -6,7 +6,7 @@ export async function loginEmployee (req, res) {
     try {
         //1. Extract email and password
         const {email, password} = req.body;
-
+        
         //2. Validate email and password
         if (!email || !password) {
             return res

@@ -11,16 +11,10 @@ dotenv.config(); //configuring .env file
 const app = express();
 const PORT = process.env.PORT;
 
-
 //Middlewares
 app.use(morgan("dev"));
 app.use(express.json())
 app.use(cors()); //Cors middleware
-
-//Creating Route
-app.get('/', (req, res) => {
-    res.status(200).json({ message: "Welcome to Nodejs!" });
-});
 
 //Employee to Routes
 app.post("/employee", authorizeToken, createEmployee);
@@ -31,7 +25,7 @@ app.delete("/employee/:id", authorizeToken, deleteEmployee);
 app.post("/auth", loginEmployee);
 
 //Route to verify token
-app.get("/", authorizeToken, () => {
+app.get("/", authorizeToken, (req, res) => {
     res.status(200).json({Message: "Token Verified."});
 });
 
