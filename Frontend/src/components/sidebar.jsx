@@ -43,7 +43,7 @@ export default function Sidebar() {
 
 const SidebarItems=({ icon, label, to }) => {
     const location = useLocation();
-    const active = location.href === to;
+    const active = location.pathname === to;
     const baseclass = "flex items-center gap-2 py-2 px-2 text-black";
     const activeClass = active ? "bg-black text-white rounded" : "bg-none";
     return (
@@ -52,4 +52,4 @@ const SidebarItems=({ icon, label, to }) => {
             <span className="text-sm">{label}</span>
         </Link>
     );
-}
+};

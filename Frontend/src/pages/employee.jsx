@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "../components/employees/buttons";
 import { FaPlus } from "react-icons/fa";
 import SearchSelect from "../components/employees/selectSearch";
