@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -20,53 +21,57 @@ export default function LoginForm() {
       return;
     }
 
-    const isDemoAdmin =
-      email === "eve.holt@reqres.in" && password === "cityslicka";
-
     try {
-      if (isDemoAdmin) {
-        const reqresResp = await fetch("https://reqres.in/api/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": "reqres-free-v1",
-          },
-          body: JSON.stringify({ email, password }),
-        });
+      // if (isDemoAdmin) {
+      //   const reqresResp = await fetch("https://reqres.in/api/login", {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       "x-api-key": "reqres-free-v1",
+      //     },
+      //     body: JSON.stringify({ email, password }),
+      //   });
 
-        if (!reqresResp.ok) {
-          throw new Error("Reqres login failed");
-        }
+      //   if (!reqresResp.ok) {
+      //     throw new Error("Reqres login failed");
+      //   }
 
-        const data = await reqresResp.json();
-        localStorage.setItem("token", data.token);
+      //   const data = await reqresResp.json();
+      //   localStorage.setItem("token", data.token);
 
-        const demoUser = { email, role: "admin" };
-        localStorage.setItem("user", JSON.stringify(demoUser));
-        alert("Demo Admin login success");
-        return navigate("/home");
-      }
+      //   const demoUser = { email, role: "admin" };
+      //   localStorage.setItem("user", JSON.stringify(demoUser));
+      //   alert("Demo Admin login success");
+      //   return navigate("/home");
+      // }
 
       // Otherwise → check your local JSON Server for user
-      const localResp = await fetch(
-        `http://localhost:5000/employees?email=${email}&password=${password}`
-      );
-      const users = await localResp.json();
+      // const localResp = await fetch(
+      //   `http://localhost:5000/employees?email=${email}&password=${password}`
+      // );
+      // const users = await localResp.json();
 
-      if (users.length === 0) {
-        alert("User not found or password incorrect");
-        return;
+      // if (users.length === 0) {
+      //   alert("User not found or password incorrect");
+      //   return;
+      // }
+
+      // const user = users[0];
+
+      const response = await axios.post("http://localhost:8000/auth", {
+        email, 
+        password
+      });
+
+      if (response.status  === 200) {
+        const token = response.data.token;
+        const user = response.data.user;
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        alert("Local login success");
+        navigate("/home");
       }
-
-      const user = users[0];
-      localStorage.setItem("token", "local-login-success");
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ email: user.email, role: user.userType })
-      );
-
-      alert("Local login success");
-      navigate("/home");
+  
     } catch (error) {
       console.error("Login error:", error);
       alert(error.message || "Something went wrong");

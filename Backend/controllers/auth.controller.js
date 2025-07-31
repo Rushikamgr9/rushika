@@ -39,7 +39,12 @@ export async function loginEmployee (req, res) {
         //6. Send token to frontend as a response
         res.status(200).json({message: "Login successfull", 
             token: token,
-            user: {_id: user._id, name: user.name, email: user.email},
+            user: {
+                _id: user._id, 
+                name: user.name, 
+                email: user.email,
+                userType: user.userType,
+            },
         });
 
     } catch (error) {
