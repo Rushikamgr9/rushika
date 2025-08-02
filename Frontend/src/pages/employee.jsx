@@ -18,7 +18,9 @@ export default function Employee() {
           Authorization: `Bearer ${token}`,
         },
       });
-      setEmployees(res.data);
+      if (res.status === 200) {
+        setEmployees(res?.data.data);
+      }
     } catch (err) {
       console.error("Failed to fetch employees", err);
     }
@@ -26,17 +28,17 @@ export default function Employee() {
     useEffect (() => {
       fetchEmployees();
     }, []);
-    const handleDelete = async (id) => {
+    const handleDelete = async (_id) => {
       const confirmDelete = window.confirm("Do you want to delete the employee?");
       if (!confirmDelete) return;
       const token = localStorage.getItem("token");
       try {
-        await axios.delete(`http://localhost:8000/employee/${id}`, {
+        await axios.delete(`http://localhost:8000/employee/${_id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setEmployees((prev) => prev.filter((emp) => emp.id !== id));
+        setEmployees((prev) => prev.filter((emp) => emp._id !== _id));
         alert("Employee deleted successfully!")
       } catch (error) {
         console.error("Error deleting employee:", error);

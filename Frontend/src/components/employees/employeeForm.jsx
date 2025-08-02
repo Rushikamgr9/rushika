@@ -58,13 +58,13 @@ const handleSubmit = async (e) => {
   try {
     if(editEmployee){
       const response = await axios.put(
-        `http://localhost:8000/employee/${editEmployee.id}`,
+        `http://localhost:8000/employee/${editEmployee._id}`,
         employeeData,
         {
           headers: { Authorization: `Bearer ${token}` } }
       );
       setEmployees((prev) => 
-        prev.map((emp) => (emp.id == editEmployee.id ? response.data : emp))
+        prev.map((emp) => (emp._id == editEmployee._id ? response.data.data : emp))
       );
       alert("Employee updated successfully!");
       setEditEmployee(null);
@@ -78,7 +78,7 @@ const handleSubmit = async (e) => {
           },
         }
       );
-      setEmployees((prev) => [...prev, response.data]);
+      setEmployees((prev) => [...prev, response.data.data]);
       setModelForm(false);
       if (response.status === 201) {
         alert("Employee added successfully");

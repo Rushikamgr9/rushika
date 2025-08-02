@@ -21,7 +21,7 @@ export default function LoginForm() {
       alert("Invalid email address");
       return;
     }
-
+    
     try {
       const response = await axios.post("http://localhost:8000/auth", {
         email, 
@@ -57,7 +57,7 @@ export default function LoginForm() {
       }
     } catch (error) {
       console.log(error);
-      if (error.status(400)) {
+      if (error.status === 400) {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
       }

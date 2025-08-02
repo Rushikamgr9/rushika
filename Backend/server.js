@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { createEmployee, deleteEmployee, getAllEmployees, getEmployeeById, updateEmployee } from "./controllers/employee.controller.js";
 import { loginEmployee } from "./controllers/auth.controller.js";
-import { authorizeToken } from "./middleware/auth.middleware.js";
+import { authorizeToken, checkRole } from "./middleware/auth.middleware.js";
 dotenv.config(); //configuring .env file
 
 const app = express();
@@ -17,8 +17,8 @@ app.use(express.json())
 app.use(cors()); //Cors middleware
 
 //Employee to Routes
-app.post("/employee", authorizeToken, createEmployee);
-app.get("/employee", authorizeToken, getAllEmployees);
+app.post("/employee", authorizeToken, checkRole, createEmployee);
+app.get("/employee", authorizeToken, checkRole, getAllEmployees);
 app.get("/employee/:id", getEmployeeById);
 app.put("/employee/:id", updateEmployee);
 app.delete("/employee/:id", authorizeToken, deleteEmployee);
