@@ -58,7 +58,7 @@ const handleSubmit = async (e) => {
   try {
     if(editEmployee){
       const response = await axios.put(
-        `http://localhost:8000/employee/${editEmployee._id}`,
+        `https://rushika.onrender.com/employee/${editEmployee._id}`,
         employeeData,
         {
           headers: { Authorization: `Bearer ${token}` } }
@@ -70,7 +70,7 @@ const handleSubmit = async (e) => {
       setEditEmployee(null);
     } else {
       const response = await axios.post(
-        "http://localhost:8000/employee",
+        "https://rushika.onrender.com/employee",
         employeeData,
         {
           headers: {
